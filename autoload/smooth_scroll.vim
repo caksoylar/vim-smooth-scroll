@@ -19,11 +19,17 @@ set cpo&vim
 " speed: Scrolling speed, or the number of lines to scroll during each scrolling
 " animation
 function! smooth_scroll#scroll(dir, dist, duration, speed) abort
-  for i in range(a:dist/a:speed)
+  for i in range(a:dist / a:speed)
     let start = reltime()
     if a:dir ==# 'd'
+      if line('.') == line('$')
+        break
+      endif
       execute "normal! " . a:speed . "\<C-e>" . a:speed . "j"
     else
+      if line('.') == 1
+        break
+      endif
       execute "normal! " . a:speed . "\<C-y>" . a:speed . "k"
     endif
     redraw
